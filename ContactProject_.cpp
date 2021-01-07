@@ -4,13 +4,14 @@ Department:computer engineering
 */
 
 
-
+//بدايه البرنامج 
 #include <iostream>
 #include <iterator>
 #include <map>
 #include <list>
 
 using namespace std;
+//تعريف كل الحقول
 const string FIELDS_LIST[] = {"Name", "Given Name", "Additional Name", "Family Name", "Yomi Name", "Given Name Yomi",
                               "Additional Name Yomi", "Family Name Yomi", "Name Prefix", "Name Suffix", "Initials",
                               "Nickname", "Short Name", "Maiden Name", "Birthday", "Gender", "Location", "Notes",
@@ -19,30 +20,30 @@ const string FIELDS_LIST[] = {"Name", "Given Name", "Additional Name", "Family N
                               "Sensitivity", "Organization", "Website",};
 
 
-class Contact {
-    map<string, string> data;
+class Contact {   //the class has private data and the type of tha items are string and string
+    map<string, string> data;//لادخال قيممه string واخراج قيمة string
 
-public:
-    Contact() { for (string field: FIELDS_LIST)data[field] = ""; }
+public://constru
+    Contact() { for (string field: FIELDS_LIST)data[field] = ""; }//يتعامل مع كل حقل على حدا ويعطي فية قيمة فارغة
 
-    ~Contact() { data.clear(); }
-
-    void setField(string field, string value) { data[field] = value; }
-
-    string getField(string field) const {
-        string value;
-        try { value = data.at(field); }
-        catch (...) { value = ""; }
+    ~Contact() { data.clear(); }//حذف العناصر الموجودة في الماب لتوفير الذاكرة 
+// the map has two methods set field and get field
+    void setField(string field, string value) { data[field] = value; } //لادخال الحقل وقيمته
+ 
+    string getField(string field) const {  //للحصول على قيمه الحقل
+        string value;//تعريف نوع القيمه
+        try { value = data.at(field); }//عندما يتم ادخال الحقل تقوم باخراج قيمته
+        catch (...) { value = ""; }// عندما يتم ادخال قيمة غير موجودة في الماب يقوم باخراج خطأواخراج قيمه فارغة
         return value;
     }
 
-
+//طباعة كل حقل وطباعة القيمه الموجودة في كل حقل
     friend ostream &operator<<(ostream &os, const Contact &contact) {
         os << "Contact{";
         for (string field: FIELDS_LIST) {
             string value = contact.getField(field);
-            if (value.empty()) continue;
-            os << "\n\t" << field << ": " << value;
+            if (value.empty()) continue;//اذا كان الحقل فارغ فلا تقوم بطباعته 
+            os << "\n\t" << field << ": " << value;//طباعة الحقل والقيمة
         }
         os << "\n}";
         return os;
@@ -94,7 +95,7 @@ Contact *getByIndex(int index, list<struct Contact> *pList) {
     }
     return &(*current);
 }
-
+//
 bool read_contact(list<struct Contact> &database) {
     cout << "Read Contact:\n";
     Contact contact = Contact();
